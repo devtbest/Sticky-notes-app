@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/f419706906.js" crossorigin="anonymous"></script>
+    <title>Sticky Notes App</title>
+
+    <link rel="stylesheet" href="note.css">
+</head>
+
+<body>
+
+    <main class="container">
+
+        <header class="header">
+
+            <h1>My Notes</h1>
+
+            <button id="openModalBtn" class="add-btn">
+
+             <span class="plus-icon"><i class="fa-solid fa-plus"></i></span>
+
+             Add a new note
+
+            </button>
+
+        </header>
+
+        <!-- Notes Grid -->
+        <section id="notesContainer" class="notes-grid">
+
+        </section>
+
+    </main>
+
+
+    <div class="modal hidden">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h3>Add a new note</h3>
+                <button id="closeModalBtn">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <textarea id="noteInput" placeholder="Type a new note...">
+            </textarea>
+
+            <button id="addNoteBtn">
+                Add note
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="toast hidden" id="toast">
+
+       <div class="toast-icon">
+         <i class="fa-solid fa-check"></i>
+       </div>
+
+       <p class="toast-message">
+          Note added successfully
+       </p>
+    
+    </div>
+
+    <input type="color" id="colorInput"
+    hidden>
+
+    <script src="note.js"></script>
+
+</body>
+
+</html>
