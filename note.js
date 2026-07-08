@@ -14,9 +14,42 @@ const noteInput = document.getElementById("noteInput");
 const modal = document.querySelector(".modal");
 const toast = document.querySelector(".toast");
 const colorInput = document.getElementById("colorInput");
-colorInput.addEventListener("input", handleColorChange);
+const pickerContainer = document.getElementById("pickerContainer");
 
 let selectedNote = null;
+
+// COLOR PICKER
+// ===============================
+const colorPicker = new iro.ColorPicker("#pickerContainer", {
+    width: 220,
+    color: "#FFF9B0",
+    borderWidth: 1,
+    borderColor: "#ddd"
+});
+
+colorPicker.on("color:change", async (color) => {
+
+    if (!selectedNote) return;
+
+    const selectedColor = color.hexString;
+    const noteCard =
+      document.querySelector(
+        `[data-id="${selectedNote.id}"]`
+    );
+
+    if (noteCard) {
+    noteCard.style.backgroundColor =
+        selectedColor;
+    }
+
+    await updateNoteColor(
+        selectedNote.id,
+        selectedColor
+    );
+
+    hideColorPicker();
+
+});
 
 // API URL
 // ===============================
@@ -66,7 +99,7 @@ function createNoteCard(note) {
   const card = document.createElement("div");
 
   card.className = "note";
-
+  card.dataset.id = note.id;
   card.style.backgroundColor = note.color || "#FFF9B0";
 
   card.innerHTML = `
@@ -92,10 +125,39 @@ function createNoteCard(note) {
   // Edit button
   const editBtn = card.querySelector(".edit-btn");
 
-    editBtn.addEventListener("click", () => {
+  editBtn.addEventListener("click", () => {
 
     selectedNote = note;
-    colorInput.click();
+
+    const rect = editBtn.getBoundingClientRect();
+
+    const pickerWidth = 260;
+    const pickerHeight = 300;
+    const spacing = 10;
+
+    // Default position (below the button)
+    let left = rect.left;
+    let top = rect.bottom + spacing;
+
+    // If it overflows the right side, move it left
+    if (left + pickerWidth > window.innerWidth) {
+        left = window.innerWidth - pickerWidth - spacing;
+    }
+
+    // If it overflows the bottom, show it above the button
+    if (top + pickerHeight > window.innerHeight) {
+        top = rect.top - pickerHeight - spacing;
+    }
+
+    // If it's still too high, keep it inside the window
+    if (top < spacing) {
+        top = spacing;
+    }
+
+    pickerContainer.style.left = `${left}px`;
+    pickerContainer.style.top = `${top}px`;
+
+    pickerContainer.classList.add("show");
 
   });
 
@@ -142,7 +204,6 @@ async function addNote() {
       throw new Error("Failed to add note.");
     }
 
-    noteInput.value = "";
 
     modal.classList.add("hidden");
 
@@ -210,10 +271,10 @@ async function updateNoteColor(id, color) {
         },
 
         body: JSON.stringify({
-           color: color
+           content: selectedNote.content,
+           color
         })
-
-   });
+    });
 
    if (!response.ok) {
       throw new Error("Failed to update note color.");
@@ -315,6 +376,17 @@ function showToast(message) {
 
 }
 
+// HIDE COLOR PICKER
+// ===============================
+
+function hideColorPicker() {
+
+    pickerContainer.classList.remove("show");
+
+    selectedNote = null;
+
+}
+
 // MODAL EVENTS
 // ===============================
 
@@ -324,9 +396,44 @@ openModalBtn.addEventListener("click", () => {
 
 closeModalBtn.addEventListener("click", () => {
   modal.classList.add("hidden");
+  noteInput.value = "";
 });
 
 addNoteBtn.addEventListener("click", addNote);
+
+// CLOSE COLOR PICKER
+// ===============================
+
+document.addEventListener("click", (event) => {
+
+    const clickedPicker = pickerContainer.contains(event.target);
+
+    const clickedEditButton = event.target.closest(".edit-btn");
+
+    if (!clickedPicker && !clickedEditButton) {
+
+        hideColorPicker();
+
+    }
+
+});
+
+document.addEventListener("keydown", (event) => {
+
+    if (event.key === "Escape") {
+
+        hideColorPicker();
+
+    }
+
+});
+
+window.addEventListener("scroll", () => {
+
+    hideColorPicker();
+
+});
+
 
 // INITIAL LOAD
 // ===============================

@@ -36,9 +36,10 @@ body{
     color: #202124;
 }
 
-.add-btn, #addNoteBtn{
+.add-btn{
     display:flex;
     align-items:center;
+    justify-content: center;
     gap:10px;
     background:#0E1446;
     color:#fff;
@@ -50,13 +51,54 @@ body{
     cursor:pointer;
     transition:.3s;
 }
-.add-btn:hover, #addNoteBtn:hover{
-    background:#1A237E;
+
+#addNoteBtn{
+    background: #0E1446;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 22px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: normal;
+    cursor: pointer;
+    transition: .3s;
+    box-sizing: border-box;
+    white-space: nowrap;
+    align-self: flex-start;
+}
+
+#addNoteBtn:hover, .add-btn:hover {
+    background: #1A237E;
+}
+
+button {
+    font-family: inherit;
 }
 
 .plus-icon{
     font-size:20px;
     font-weight:bold;
+}
+
+.close-btn{
+    background: transparent;
+    border: 1px solid #888;
+    width: 26px;
+    height: 26px;
+    border-radius: 3px;
+    font-size: 22px;
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
+    color: #000;
+}
+
+.close-btn:hover{
+    background: #f3f3f3;
 }
 
 .notes-grid{
@@ -75,6 +117,7 @@ body{
     display:flex;
     flex-direction:column;
     justify-content:space-between;
+    overflow: hidden;
     transition:.3s;
 }
 .note:hover{
@@ -155,22 +198,29 @@ body{
     width:420px;
     padding:25px;
     border-radius:14px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
 }
 
 .modal-header{
     display:flex;
     justify-content:space-between;
+    align-items: center;
     margin-bottom:20px;
 }
 
 textarea{
     width:100%;
-    height:140px;
+    min-height:140px;
     resize:none;
     padding:15px;
     border-radius:10px;
     outline:none;
-    margin-bottom:20px;
+    border:1px solid #ccc;
 }
 
 .toast{
@@ -228,6 +278,20 @@ textarea{
     }
 }
 
-.toast, .hidden, #colorInput{
+.picker-container{
+    position: fixed;
+    display: none;
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.2);
+    z-index: 9999;
+}
+
+.picker-container.show{
+    display: block;
+}
+
+.hidden {
     display:none;
 }

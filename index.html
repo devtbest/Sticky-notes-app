@@ -42,15 +42,14 @@
 
             <div class="modal-header">
                 <h3>Add a new note</h3>
-                <button id="closeModalBtn">
+                <button class="close-btn" id="closeModalBtn">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
-            <textarea id="noteInput" placeholder="Type a new note...">
-            </textarea>
+            <textarea id="noteInput" placeholder="Type a new note..."></textarea>
 
-            <button id="addNoteBtn">
+            <button class="addNoteBtn" id="addNoteBtn">
                 Add note
             </button>
 
@@ -71,8 +70,10 @@
     
     </div>
 
-    <input type="color" id="colorInput"
-    hidden>
+    <div id="pickerContainer" class="picker-container hidden"></div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
 
     <script src="note.js"></script>
 
